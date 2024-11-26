@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: https_nginx
+    ports:
+      - "443:443"  # HTTPS
+      - "80:80"    # Redirect from HTTP to HTTPS
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro   # Use custom Nginx config
+      - ./html:/usr/share/nginx/html:ro              # Serve static HTML
+      - ./certs:/etc/nginx/certs:ro                  # Mount SSL certificates

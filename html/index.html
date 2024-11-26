@@ -1,0 +1,46 @@
+<html>
+    <body>
+        <h1>This is a reverse proxy</h1>
+        <label for="doc-id">Document ID:</label>
+        <input type="text" id="doc-id"><br>
+
+        <label for="api-key">API Key:</label>
+        <input type="text" id="api-key"><br>
+
+        <label for="env">Environment:</label>
+        <input type="text" id="env"><br>
+
+        <button onclick="addIframe()">Add Iframe</button>
+
+        <script>
+            function addIframe() {
+                // Get the values of the inputs
+                var docId = document.getElementById("doc-id").value;
+                var apiKey = document.getElementById("api-key").value;
+                var env = document.getElementById("env").value;
+    
+                // Construct the URL for the iframe
+                var iframeSrc = `${window.location.href}/editor/${env}/editor_html.aspx?doc=${docId}&apiKey=${apiKey}`;
+    
+                // Create the iframe element
+                var iframe = document.createElement("iframe");
+                iframe.src = iframeSrc;
+                iframe.style.height = "800px";
+                iframe.style.width = "800px";
+
+                window.OnEditorEvent = (event) => {
+                    if (event == "DocumentFullyLoaded") {
+                        window.editorObject = iframe.contentWindow.editorObject;
+
+                        alert("JavaScript works, nothing blocked");
+                    }
+                }
+
+                // Add the iframe to the body
+                document.body.appendChild(iframe);
+
+            }
+        </script>
+    </body>
+</html>
+
